@@ -1,0 +1,75 @@
+{
+  "name": "error-alert",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "8cf0a3f3-f551-4aef-b17b-e82b33146bae",
+      "name": "On workflow error",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "SET_ME",
+        "text": "=n8n error in workflow: {{ $json.workflow.name }}\nNode: {{ $json.execution.lastNodeExecuted }}\nError: {{ $json.execution.error?.message }}\nMode: {{ $json.execution.mode }}\nExecution: {{ $json.execution.url }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_web_page_preview": true
+        }
+      },
+      "id": "431fea1a-3198-4f7e-a388-aeef2293bf51",
+      "name": "Alert on Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        0
+      ],
+      "credentials": {
+        "telegramApi": {
+          "name": "Telegram quick-post"
+        }
+      },
+      "webhookId": "57fb5338-c27f-4d0b-b19b-4cbba6d09b3d"
+    },
+    {
+      "parameters": {
+        "content": "## Error alerts\nSet as the error workflow of every production workflow (Workflow settings). Sends the failing workflow, node, and error to Telegram.",
+        "width": 480,
+        "height": 260,
+        "color": 3
+      },
+      "id": "67f6a716-42c3-41ac-8381-839accc6c18f",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        -180
+      ]
+    }
+  ],
+  "connections": {
+    "On workflow error": {
+      "main": [
+        [
+          {
+            "node": "Alert on Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": []
+}
